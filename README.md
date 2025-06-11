@@ -1,6 +1,7 @@
-# multipass
-MULTIPASS A Universal API Wrapper - Turn ANY Python Library into a Robust API
+# MULTIPASS
 # Universal API Wrapper - Turn ANY Python Library into a Robust API
+
+MULTIPASS A Universal API Wrapper - Turn ANY Python Library into a Robust API
 
 The architecture I've created is **completely universal** and works with:
 
