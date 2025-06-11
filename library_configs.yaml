@@ -1,0 +1,132 @@
+# library_configs.yaml
+# Configuration examples for different libraries
+
+# YOLO/Ultralytics Configuration
+yolo:
+  module: ultralytics
+  adapter_class: YOLOAdapter
+  init_args:
+    model_name: yolov8n.pt  # Can be yolov8s, yolov8m, yolov8l, yolov8x
+  endpoints:
+    - detect
+    - segment
+    - track
+    - classify
+  file_upload: true
+  supported_formats:
+    - image/jpeg
+    - image/png
+    - video/mp4
+
+# Transformers/LLM Configuration
+transformers:
+  module: transformers
+  adapter_class: LLMAdapter
+  init_args:
+    provider: transformers
+    model_name: microsoft/phi-2
+  endpoints:
+    - generate
+    - embed
+    - tokenize
+  rate_limit: 10  # requests per minute
+  max_tokens: 2048
+
+# MLX LM (Apple Silicon LLMs)
+mlx_lm:
+  module: mlx_lm
+  init_function: load
+  init_args:
+    model_path: mlx-community/quantized-gemma-2b
+  endpoints:
+    - generate
+    - stream_generate
+  streaming: true
+
+# OpenCV Configuration
+opencv:
+  module: cv2
+  endpoints:
+    - imread
+    - imwrite
+    - resize
+    - cvtColor
+    - GaussianBlur
+    - Canny
+    - findContours
+  process_chain: true  # Allow chaining operations
+
+# Streamlit Apps
+streamlit:
+  adapter_class: StreamlitAdapter
+  apps:
+    - name: dashboard
+      path: ./apps/dashboard.py
+      port: 8501
+    - name: ml_demo
+      path: ./apps/ml_demo.py
+      port: 8502
+
+# Pandas Data Processing
+pandas:
+  module: pandas
+  endpoints:
+    - read_csv
+    - read_excel
+    - read_json
+    - DataFrame.to_json
+    - DataFrame.describe
+    - DataFrame.groupby
+  max_file_size: 100MB
+
+# Scikit-learn
+sklearn:
+  module: sklearn
+  submodules:
+    - ensemble.RandomForestClassifier
+    - svm.SVC
+    - cluster.KMeans
+    - preprocessing.StandardScaler
+  model_persistence: true
+  model_store: ./models
+
+# LangChain
+langchain:
+  module: langchain
+  chains:
+    - qa_chain:
+        type: RetrievalQA
+        llm: openai
+        vectorstore: chroma
+    - summary_chain:
+        type: SummarizationChain
+        llm: anthropic
+
+# Stable Diffusion
+stable_diffusion:
+  module: diffusers
+  init_function: StableDiffusionPipeline.from_pretrained
+  init_args:
+    model_id: runwayml/stable-diffusion-v1-5
+  endpoints:
+    - generate_image
+    - img2img
+    - inpaint
+  gpu_required: true
+
+# Custom Library Example
+my_custom_lib:
+  module: my_company.ml_pipeline
+  init_function: initialize_pipeline
+  init_args:
+    config_path: ./config/production.yaml
+    gpu_device: 0
+  endpoints:
+    - preprocess
+    - train
+    - evaluate
+    - predict
+    - export_model
+  auth_required: true
+  api_keys:
+    - $MY_API_KEY
